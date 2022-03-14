@@ -1,0 +1,61 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/spritesheet_backtiles.png" type="Texture" id=1]
+[ext_resource path="res://bigText.tres" type="Theme" id=2]
+[ext_resource path="res://scripts/tileNumber.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 80, 80 )
+
+[node name="rootTile" type="Area2D"]
+scale = Vector2( 0.2, 0.2 )
+script = ExtResource( 3 )
+value = null
+
+[node name="move_tween" type="Tween" parent="."]
+playback_speed = 0.5
+playback/speed = 0.5
+
+[node name="reduce_tween" type="Tween" parent="."]
+playback_speed = 0.5
+playback/speed = 0.5
+
+[node name="offset" type="Node2D" parent="."]
+position = Vector2( 80, -80 )
+
+[node name="back2" type="Sprite" parent="offset"]
+modulate = Color( 0.196078, 0.215686, 0.196078, 1 )
+position = Vector2( 0.308914, 9.98729 )
+scale = Vector2( 0.617761, 0.542734 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 555.938, 537.272, 259.563, 259.563 )
+
+[node name="back" type="Sprite" parent="offset"]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 7.62939e-06, -12.4002 )
+scale = Vector2( 0.577617, 0.488407 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 277, 277 )
+
+[node name="Label" type="Label" parent="offset"]
+margin_left = -80.0
+margin_top = -80.0
+margin_right = 80.0
+margin_bottom = 55.0
+theme = ExtResource( 2 )
+text = "1"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 80, -80 )
+shape = SubResource( 1 )
+
+[connection signal="input_event" from="." to="." method="_on_Node2D_input_event"]
+[connection signal="tween_completed" from="reduce_tween" to="." method="_on_reduce_tween_tween_completed"]
