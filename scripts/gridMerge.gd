@@ -79,6 +79,9 @@ func create_piece(column, row,value,kind):
 	piece.get_node("offset/Label").text = str(value)
 	piece.value = value
 	piece.name = "tile C" + str(column) + " R" + str(row)
+	
+	piece.get_node("reduce_tween").connect("tween_completed",self,"_on_reduce_tween_tween_completed")
+
 	return piece
 
 func grid_to_pixel(column, row):
@@ -225,21 +228,18 @@ func _on_destroy_timer_timeout():
 func destroy_matched():
 	#pour chaque groupe a détruire
 	for group in match_groups:
-		#choix de la position de la nouvelle piece a créer
-#		var rand = int(rand_range(0,group.size()))
-#		var value = group[0].value
-#		var spawnpos = find_piece(group[rand])
-#		var newpiece = create_piece(spawnpos.x,spawnpos.y,value+1,"pop")
 		#suppresion des pieces du groupe
 		for piece in group:
 			var pos = find_piece(piece)
-			all_pieces[pos.x][pos.y].queue_free()
-			all_pieces[pos.x][pos.y] = null
-#			#todo : creer une seule tile 
-#			all_pieces[pos.x][pos.y] = create_piece(pos.x,pos.y,6)
-#		all_pieces[spawnpos.x][spawnpos.y] = newpiece
+			all_pieces[pos.x][pos.y].destroy(.5)
 	match_groups = []
 	get_parent().get_node("collapse_timer").start()
+
+func _on_reduce_tween_tween_completed(object, key):
+	print ("end reduce")
+	var pos = find_piece(object.get_parent())
+	all_pieces[pos.x][pos.y].queue_free()
+	all_pieces[pos.x][pos.y] = null
 
 func _on_collapse_timer_timeout():
 	collapse_collumns()

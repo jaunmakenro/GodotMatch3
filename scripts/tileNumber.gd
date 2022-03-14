@@ -17,15 +17,8 @@ func pop(duration):
 	move_tween.start()
 
 func destroy(duration):
-	$reduce_tween.interpolate_property($offset, "scale", Vector2(1,1), Vector2(0,0), duration, Tween.TRANS_BOUNCE,Tween.EASE_OUT)
+	$reduce_tween.interpolate_property($offset, "scale", Vector2(1,1), Vector2(0.2,0.2), duration, Tween.TRANS_BOUNCE,Tween.EASE_OUT)
 	$reduce_tween.start()
-
-#TODO
-func _on_reduce_tween_tween_completed(object, key):
-	my = get_parent().find_piece(self)
-	all_pieces[pos.x][pos.y].queue_free()
-	all_pieces[pos.x][pos.y] = null
-	pass # Replace with function body.
 
 #change la couleur. Appelé quand on match
 func dim():
